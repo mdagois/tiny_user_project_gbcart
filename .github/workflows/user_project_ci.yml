@@ -21,6 +21,62 @@ env:
 concurrency: ${{ github.workflow }}-${{ github.ref_name }}
 
 jobs:
+  xls:
+    runs-on: ubuntu-latest
+    steps:
+    - name: checkout repo
+      uses: actions/checkout@v3
+    - name: cache conda
+      uses: actions/cache@v3
+      with:
+        path: ~/conda_pkgs_dir
+        key:
+          ${{ runner.os }}-conda-${{ hashFiles('environment.yml') }}
+    - name: setup miniconda
+      uses: conda-incubator/setup-miniconda@v2.2.0
+      with:
+        activate-environment: tiny_user_project_env
+        channel-priority: strict
+        use-only-tar-bz2: true
+    - name: update path
+      shell: bash -l {0}
+      run: |
+        echo $CONDA/envs/tiny_user_project_env/bin >> $GITHUB_PATH
+    - name: update path
+      shell: bash -l {0}
+      run: |
+        conda install -c litex-hub xls
+    - name: run dslx test
+      run: |
+        cat << EOF >> $GITHUB_STEP_SUMMARY
+        # test
+        \`\`\`
+        `interpreter_main user_module.x 2>&1`
+        \`\`\`
+        EOF
+    - name: generate rtl
+      run: |
+        ir_converter_main --top=user_module user_module.x > user_module.ir
+        opt_main user_module.ir > user_module_opt.ir
+        codegen_main --module_name user_module --use_system_verilog=false --generator=combinational user_module_opt.ir > verilog/rtl/user_module.v
+    - name: add verilog to summary
+      run: |
+        cat << EOF >> $GITHUB_STEP_SUMMARY
+        # codegen
+        \`\`\`
+        `cat verilog/rtl/user_module.v`
+        \`\`\`
+        EOF
+    - name: populate rtl cache
+      uses: actions/cache@v3
+      with:
+        path: |
+          user_module.x
+          user_module.ir
+          user_module_opt.ir
+          verilog/rtl/user_module.v
+        key: ${{ runner.os }}-rtl-${{ github.run_id }}
+  
   gds:
     runs-on: ubuntu-latest
     steps:
@@ -65,6 +121,16 @@ jobs:
       uses: actions/setup-python@v4
       with:
         python-version: '3.10'
+
+    - name: populate rtl cache
+      uses: actions/cache@v3
+      with:
+        path: |
+          user_module.x
+          user_module.ir
+          user_module_opt.ir
+          verilog/rtl/user_module.v
+        key: ${{ runner.os }}-rtl-${{ github.run_id }}
 
     - name: fetch verilog and build config
       run: |
