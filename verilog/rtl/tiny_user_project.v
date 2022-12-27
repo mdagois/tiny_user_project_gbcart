@@ -17,11 +17,11 @@ module tiny_user_project(
 
 // pass input and output pins defined in user_defines.v
 user_module mod (
-    io_in[15:8],
-    io_out[23:16]
+    io_in[28:5],
+    io_out[36:29]
 );
 // all output enabled
-assign io_oeb[23:16] = 8'b0;
+assign io_oeb[36:29] = 8'b0;
 
 endmodule	// tiny_user_project
 
