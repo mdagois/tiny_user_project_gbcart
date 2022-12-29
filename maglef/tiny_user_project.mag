@@ -1,11 +1,11 @@
 magic
 tech sky130A
 magscale 1 2
-timestamp 1672130317
+timestamp 1672320537
 << obsli1 >>
 rect 1104 2159 28888 31569
 << obsm1 >>
-rect 566 2128 29048 31600
+rect 566 2128 29334 31600
 << metal2 >>
 rect 570 33200 626 34000
 rect 1674 33200 1730 34000
@@ -60,8 +60,8 @@ rect 23866 33144 24802 33200
 rect 24970 33144 25906 33200
 rect 26074 33144 27010 33200
 rect 27178 33144 28114 33200
-rect 28282 33144 29042 33200
-rect 572 2139 29042 33144
+rect 28282 33144 29218 33200
+rect 572 2139 29328 33144
 << metal3 >>
 rect 29200 31832 30000 31952
 rect 29200 31152 30000 31272
@@ -332,6 +332,9 @@ rect 18309 2128 18629 31600
 rect 21782 2128 22102 31600
 rect 25255 2128 25575 31600
 rect 28728 2128 29048 31600
+<< obsm4 >>
+rect 12203 12139 14756 23085
+rect 15236 12139 15765 23085
 << labels >>
 rlabel metal3 s 29200 1912 30000 2032 6 io_in[0]
 port 1 nsew signal input
@@ -581,8 +584,8 @@ port 116 nsew ground bidirectional
 string FIXED_BBOX 0 0 30000 34000
 string LEFclass BLOCK
 string LEFview TRUE
-string GDS_END 502686
-string GDS_FILE /home/runner/work/tiny_user_project_gbcart/tiny_user_project_gbcart/openlane/tiny_user_project/runs/22_12_27_08_36/results/signoff/tiny_user_project.magic.gds
-string GDS_START 23768
+string GDS_END 997166
+string GDS_FILE /home/runner/work/tiny_user_project_gbcart/tiny_user_project_gbcart/openlane/tiny_user_project/runs/22_12_29_13_26/results/signoff/tiny_user_project.magic.gds
+string GDS_START 234946
 << end >>
 
